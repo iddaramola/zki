@@ -6,7 +6,7 @@
 function getUsers(): Promise<User[]> {
     return request.get<User[]>('/users').then(users => {
         for (var i = 0; i < users.length; i++) {
-            const user = users[i];
+            var user = users[i];
             getUserPhoto(user.id).then(photoData => user.photo = photoData.url);
         }
 
