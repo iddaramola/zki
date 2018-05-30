@@ -4,10 +4,17 @@
  * original user object with the newly retrieved photo URL.
  */
 function getUsers(): Promise<User[]> {
+
     return request.get<User[]>('/users').then(users => {
+
         for (var i = 0; i < users.length; i++) {
-            var user = users[i];
-            getUserPhoto(user.id).then(photoData => user.photo = photoData.url);
+            //var user = users[i];
+            //in other to successfully patch the original user objects with photo data,
+            //there is no need to declare a seperate variable 'user' for each iteration
+            //of the for-loop, as this results in no effective change to the original user
+            //objects. to fix the bug , I delected the variable declaration line and change
+            //all occurences of 'user.id' to 'users[i].id'
+            getUserPhoto(users[i].id).then(photoData => users[i].photo = photoData.url);
         }
 
         return users;
