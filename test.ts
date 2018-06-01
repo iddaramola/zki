@@ -9,7 +9,8 @@ async function getUsers() {
   //  });
     
     const users = await request.get('/users');
-    const newUsers = users.map(async (user) => {
+     // this is a non-blocking loop
+     users.map(async (user) => {
            const userPhoto =  await getUserPhoto(user.id)
            user.photo = userPhoto.url;
            return user;
@@ -39,6 +40,19 @@ async function getUsers() {
 async function getUserPhoto(userId) {
       return await request.get(`/users/${String(userId)}/photo`);
 }
+
+// TEST using JEST
+test(' test getUserPhoto', async () => {
+    expect.assertions(1);
+    const userphoto =  await getUserPhoto('test-user-id-1223378484hutugjgltiruu1244356');
+    expect(userphoto).toBeDefined();
+})
+
+test(' test getUsers', async () => {
+    expect.assertions(1);
+    const users =  await getUsers();
+    expect(users).toBeDefined();
+})
 
 /**
  * If you don't know TS and would rather use pure JS, you can delete this section and remove all type annotations above
