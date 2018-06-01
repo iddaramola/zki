@@ -4,16 +4,25 @@
  * original user object with the newly retrieved photo URL.
  */
 async function getUsers() {
-return await request.get('/users').then(users =>{ 
-    let newUsers = users.map((user)=> getUserPhoto(user.id).then(photoData => user.photo = photoData.url))
-    });
+//return await request.get('/users').then(users =>{ 
+  //  let newUsers = users.map( user => getUserPhoto(user.id).then(photoData => user.photo = photoData.url))
+  //  });
+    
+    const users = await request.get('/users');
+    const newUsers = users.map(async (user) => {
+           const userPhoto =  await getUserPhoto(user.id)
+           user.photo = userPhoto.url;
+           return user;
+          }
+      )
 
+    
     /*
         for (var i = 0; i < users.length; i++) {
             //var user = users[i];
 
             // MY CHANGES EXPLAINED BELOW
-            
+
             //in other to successfully patch the original user objects with photo data,
             //there is no need to declare a seperate variable 'user' for each iteration
             //of the for-loop, as this results in no effective change to the original user
