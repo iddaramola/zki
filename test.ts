@@ -3,7 +3,7 @@
  * After retrieving the users, it retrieves the picture for each user (in a non-blocking manner) and patches the
  * original user object with the newly retrieved photo URL.
  */
-async function getUsers() {
+ export async function getUsers() {
 //return await request.get('/users').then(users =>{ 
   //  let newUsers = users.map( user => getUserPhoto(user.id).then(photoData => user.photo = photoData.url))
   //  });
@@ -37,22 +37,11 @@ async function getUsers() {
         return users;
         */
 }
-async function getUserPhoto(userId) {
+ export async function getUserPhoto(userId) {
       return await request.get(`/users/${String(userId)}/photo`);
 }
 
-// TEST using JEST
-test(' test getUserPhoto', async () => {
-    expect.assertions(1);
-    const userphoto =  await getUserPhoto('test-user-id-1223378484hutugjgltiruu1244356');
-    expect(userphoto).toBeDefined();
-})
 
-test(' test getUsers', async () => {
-    expect.assertions(1);
-    const users =  await getUsers();
-    expect(users).toBeDefined();
-})
 
 /**
  * If you don't know TS and would rather use pure JS, you can delete this section and remove all type annotations above
